@@ -25,6 +25,12 @@ const switchNavigator = createSwitchNavigator({
   }),
 });
 
+SignupScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
+};
+
 export default createAppContainer(switchNavigator)
 
 const styles = StyleSheet.create({
