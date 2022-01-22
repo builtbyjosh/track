@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 
-const TrackListScreen = ({navigation}) => {
+const TrackListScreen = ({navigation}) => { 
   return (
     <View>
       <Text>Track List Screen</Text>
@@ -14,6 +14,8 @@ const TrackListScreen = ({navigation}) => {
     </View>
   );
 };
+
+
 
 export default TrackListScreen;
 
