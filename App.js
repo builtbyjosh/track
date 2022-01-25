@@ -29,7 +29,7 @@ const switchNavigator = createSwitchNavigator({
 const App = createAppContainer(switchNavigator);
 
 export default () => {
-  retunr(
+  return (
     <AuthProvider>
       <App />
     </AuthProvider>
