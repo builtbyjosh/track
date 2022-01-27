@@ -7,15 +7,29 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'add_error':
       return { ...state, errorMessage: action.payload };
-    case 'sign_in':
-      return;
-    case 'signup':
+    case 'signin':
       return { errorMessage: '', token: action.payload };
-    case 'sign_out':
-      return;
+    case 'clear_error_message':
+      return { ...state, errorMessage: '' };
     default:
       return state;
   }
+};
+
+const tryLocalSignin = dispatch => {
+  return async () => {
+    const token = await AsyncStorage.getItem('token')
+    if (token){
+      dispatch({type: 'signin', payload: token})
+      navigate('TrackList')
+    } else {
+      navigate('loginFlow')
+    }
+  }
+}
+
+const clearErrorMessage = (dispatch) => () => {
+  dispatch({ type: "clear_error_message" });
 };
 
 const signup = (dispatch) => {
@@ -23,8 +37,8 @@ const signup = (dispatch) => {
     try {
       const response = await trackerAPI.post('/signup', { email, password });
       await AsyncStorage.setItem('token', response.data.token);
-      dispatch({ type: 'signup', payload: response.data.token });
-      navigate('TrackList')
+      dispatch({ type: 'signin', payload: response.data.token });
+      navigate('TrackList');
     } catch (err) {
       dispatch({
         type: 'add_error',
@@ -34,7 +48,19 @@ const signup = (dispatch) => {
   };
 };
 const signin = (dispatch) => {
-  return ({ email, password }) => {};
+  return async ({ email, password }) => {
+    try {
+      const response = await trackerAPI.post('/signin', { email, password });
+      await AsyncStorage.setItem('token', response.data.token);
+      dispatch({ type: 'signin', payload: response.data.token });
+      navigate('TrackList');
+    } catch (err) {
+      dispatch({
+        type: 'add_error',
+        payload: 'Something went wrong with signin',
+      });
+    }
+  };
 };
 const signout = (dispatch) => {
   return () => {};
@@ -42,6 +68,6 @@ const signout = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup },
+  { signin, signout, signup, clearErrorMessage, tryLocalSignin },
   { token: null, errorMessage: '' }
 );
