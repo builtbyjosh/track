@@ -3,12 +3,16 @@ import React, { useContext } from 'react';
 import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
+import { NavigationEvents } from 'react-navigation';
 
 const SigninScreen = ({ navigation }) => {
-  const { state, signin } = useContext(AuthContext);
+  const { state, signin, clearErrorMessage } = useContext(AuthContext);
+
+
 
   return (
     <View style={styles.container}>
+     <NavigationEvents onWillFocus={clearErrorMessage} />
       <AuthForm
         headerText={'Signin to Tracker'}
         errorMessage={state.errorMessage}
