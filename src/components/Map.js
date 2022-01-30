@@ -9,7 +9,7 @@ const Map = () => {
       latitude: 37.33233 + i * 0.001,
       longitude: -122.03121 + i * 0.001
     })
-  }
+  } 
 
   return (
     <MapView
