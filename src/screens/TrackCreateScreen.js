@@ -14,14 +14,14 @@ const TrackCreateScreen = () => {
         throw new Error('Location permission not granted');
       }
     } catch (e) {
-      setErr(e); 
+      setErr(e);  
     }
   };
 
   useEffect(() => {
     startWatching()
   }, []);
-  
+    
 
   return (
     <SafeAreaView forceInset={{top: 'always'}}>
